@@ -1,0 +1,85 @@
+body,
+html {
+  height: 100%;
+  width: 100%;
+  font-family: sans-serif;
+}
+
+.container {
+  height: 100%;
+  padding: 2% 4%;
+}
+
+.bookEntry {
+  display: flex;
+  border: 1px lightgray solid;
+  border-radius: 4px;
+  margin-top: 1%;
+  background: #f7f9fa;
+  padding: 8px 16px;
+  flex-direction: column;
+}
+
+ul {
+  list-style: none;
+  padding-bottom: 20px;
+  border-bottom: 1px lightgray solid;
+}
+
+li + li {
+  margin-top: 16px;
+}
+
+label {
+  display: inline-block;
+  font-size: 14px;
+  width: 80px;
+  padding-right: 10px;
+  text-align: right;
+}
+
+label.required::after {
+  content: "*";
+  margin-right: 4px;
+  color: red;
+}
+
+input {
+  font-size: 20px;
+  border: 1px lightgray solid;
+  border-radius: 2px;
+}
+
+select,
+input.button {
+  background: #5252e7;
+  color: white;
+  padding: 6px 12px;
+  width: 100px;
+  font-size: 16px;
+  box-shadow: 0px -1px 2px 0 #065881 inset, 0px 1px -1px 1px #ccc;
+  border-radius: 6px;
+  outline: none;
+  overflow: hidden;
+}
+
+select:hover {
+  min-width: 100px;
+  width: auto;
+}
+
+.button:active {
+  background: #0b94d9;
+}
+
+.addEntryButton {
+  margin-left: 135px;
+}
+
+.listBooks {
+  border: 1px lightgray solid;
+  border-radius: 4px;
+  margin-top: 1%;
+  padding: 8px 16px;
+}
+
