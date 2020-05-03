@@ -36,7 +36,7 @@
                 </div>
             </div>
             <div class="listBooks">
-                
+                @yield('table')
             </div>
         </div>
     </body>

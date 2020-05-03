@@ -14,3 +14,6 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', 'PageController@index');
+
+//Route to return books data.
+Route::resource('/', 'BooksController');
