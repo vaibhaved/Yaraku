@@ -17,3 +17,7 @@ Route::get('/', 'PageController@index');
 
 //Route to return books data.
 Route::resource('/', 'BooksController');
+
+Route::delete('/{id}', 'BooksController@destroy');
+
+Route::put('/{id}', 'BooksController@update');

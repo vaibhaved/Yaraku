@@ -5,9 +5,11 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>{{config('app.name','Yaraku Test')}}</title>
         <link rel="stylesheet" href="{{ asset('css/app.css') }}">
+        <script src="{{ asset('js/app.js') }}"></script>
     </head>
     <body>
         <div class="container">
+            @include('inc.messages')
             <select value="Export" class="button">
                 <option value="Export">Export</option>
                 <optgroup label="CSV">
@@ -20,20 +22,24 @@
                     <option value="author-xml">List with only Author</option>
             </select>
             <div class="bookEntry">
-                <ul>
-                    <li>
-                        <label for="title" class="required">Title</label>
-                        <input type="text" id="title" name="bookTitle">
-                    </li>
-                    <li>
-                        <label for="author" class="required">Author</label>
-                        <input type="text" id="author" name="bookAuthor">
-                    </li>
-                </ul>
-                <div>
-                    <input type="button" value="Add" class="button addEntryButton">
-                    <input type="button" value="Search" class="button searchButton">
-                </div>
+                
+                <form method="POST" action="{{ action('BooksController@store') }}">
+                    {{ csrf_field() }}
+                    <ul>
+                        <li>
+                            <label for="title" class="required">Title</label>
+                            <input type="text" id="title" name="title">
+                        </li>
+                        <li>
+                            <label for="author" class="required">Author</label>
+                            <input type="text" id="author" name="author">
+                        </li>
+                    </ul>
+                    <div>
+                        <input type="submit" value="Add" class="button addEntryButton">
+                        <input type="button" value="Search" class="button searchButton">
+                    </div>
+                </form>
             </div>
             <div class="listBooks">
                 @yield('table')
