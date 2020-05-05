@@ -15,6 +15,8 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', 'PageController@index');
 
+Route::post('/export', 'PageController@export');
+
 //Route to return books data.
 Route::resource('/', 'BooksController');
 

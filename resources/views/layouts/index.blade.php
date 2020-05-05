@@ -10,17 +10,21 @@
     <body>
         <div class="container">
             @include('inc.messages')
-            <select value="Export" class="button">
-                <option value="Export">Export</option>
-                <optgroup label="CSV">
-                    <option value="title-author-csv">List with both Title and Author</option>
-                    <option value="title-csv">List with only Title</option>
-                    <option value="author-csv">List with only Author</option>
-                <optgroup label="XML">
-                    <option value="title-author-xml">List with both Title and Author</option>
-                    <option value="title-xml">List with only Title</option>
-                    <option value="author-xml">List with only Author</option>
-            </select>
+            <form method="POST" action="/export">
+                {{ csrf_field() }}
+                <select name="Export"class="button">
+                    <option value="Export">Export</option>
+                    <optgroup label="CSV">
+                        <option value="title-author-csv">List with both Title and Author</option>
+                        <option value="title-csv">List with only Title</option>
+                        <option value="author-csv">List with only Author</option>
+                    <optgroup label="XML">
+                        <option value="title-author-xml">List with both Title and Author</option>
+                        <option value="title-xml">List with only Title</option>
+                        <option value="author-xml">List with only Author</option>
+                </select>
+                <input type="submit" value="Download" name="download" class="button">
+            </form>
             <div class="bookEntry">
                 
                 <form method="POST" action="{{ action('BooksController@store') }}">
@@ -37,7 +41,7 @@
                     </ul>
                     <div>
                         <input type="submit" value="Add" class="button addEntryButton">
-                        <input type="button" value="Search" class="button searchButton">
+                        <input type="submit" value="Search" name="search" class="button">
                     </div>
                 </form>
             </div>

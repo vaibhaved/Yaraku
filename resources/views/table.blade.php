@@ -17,8 +17,8 @@
                         <form method="POST" action="{{ action('BooksController@update', $book->id)}}">
                             {{ csrf_field() }}
                             {{ method_field('PUT') }}
-                            <td class="td-first" contenteditable="true"><input class="inputTable" type="text" value="{{$book->title}}" name="bookTitle" id="bookTitle""></td>
-                            <td contenteditable="true"><input class="inputTable" type="text" value="{{$book->author}}" name="bookAuthor" id="bookAuthor"></td>
+                            <td class="td-first" contenteditable="true"><input class="inputTable" type="text" value="{{$book->title}}" name="bookTitle"></td>
+                            <td contenteditable="true"><input class="inputTable" type="text" value="{{$book->author}}" name="bookAuthor"></td>
                             <td><button class="btn" type="submit"><i class="editIcon"></i></button></td>
                         </form>
                         <form method="POST" action="{{ action('BooksController@destroy', $book->id)}}">

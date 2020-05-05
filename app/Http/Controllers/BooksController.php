@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Book;
+use DB;
 
 class BooksController extends Controller
 {
@@ -29,6 +30,35 @@ class BooksController extends Controller
     }
 
     /**
+     * Search for books based on title or author or both
+     */
+    public function search(Request $request)
+    {
+        $title = $request->input('title');
+        $author = $request->input('author');
+        if ($title != NULL && $author != NULL)
+        {
+            $books = DB::select("SELECT * FROM books WHERE title='$title' AND author='$author';");
+            return view('table')->with('books',$books);
+        }
+        else if ($title != NULL)
+        {
+            $books = DB::select("SELECT * FROM books WHERE title='$title';");
+            return view('table')->with('books',$books);
+        }
+        else if ($author != NULL)
+        {
+            $books = DB::select("SELECT * FROM books WHERE author='$author';");
+            return view('table')->with('books',$books);
+        }
+        else
+        {
+            return redirect('/')->with('error','Atleast one of the two fields "title and author" should be present to perform search');
+        }
+    }
+
+
+    /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
@@ -36,17 +66,24 @@ class BooksController extends Controller
      */
     public function store(Request $request)
     {
-        $this->validate($request, [
-            'title' => 'required',
-            'author' => 'required'
-        ]);
-
-        $book = new Book;
-        $book->title = $request->input('title');
-        $book->author = $request->input('author');
-        $book->save();
-
-        return redirect('/')->with('success', 'Book Added');
+        if($request->input('search'))
+        {
+            return $this->search($request);
+        }
+        else
+        {
+            $this->validate($request, [
+                'title' => 'required',
+                'author' => 'required'
+            ]);
+    
+            $book = new Book;
+            $book->title = $request->input('title');
+            $book->author = $request->input('author');
+            $book->save();
+    
+            return redirect('/')->with('success', 'Book Added');
+        }
     }
 
     /**
