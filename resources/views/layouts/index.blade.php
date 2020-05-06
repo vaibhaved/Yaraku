@@ -42,6 +42,7 @@
                     <div>
                         <input type="submit" value="Add" class="button addEntryButton">
                         <input type="submit" value="Search" name="search" class="button">
+                        <a href="/"><input type="button" value="Reset" class="button"></a>
                     </div>
                 </form>
             </div>

@@ -16,17 +16,21 @@ class BooksController extends Controller
     public function index()
     {
         $books = Book::orderBy('created_at','desc')->get();
-        return view('table',)->with('books',$books);
+        $sortby = 'created_at';
+        $order = 'desc';
+        return view('table',)->with(compact('books','sortby','order'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
+    public function sort(Request $request)
     {
-        //
+        $sortby = $request->input('sortby');
+        $order = $request->input('order');
+        if ($sortby && $order) {
+            $books = Book::orderBy($sortby, $order)->get();
+        } else {
+            $books = Book::orderBy('created_at','desc')->get();
+        }
+        return view('table')->with(compact('books', 'sortby', 'order'));
     }
 
     /**
@@ -36,20 +40,22 @@ class BooksController extends Controller
     {
         $title = $request->input('title');
         $author = $request->input('author');
+        $sortby = 'created_at';
+        $order = 'desc';
         if ($title != NULL && $author != NULL)
         {
-            $books = DB::select("SELECT * FROM books WHERE title='$title' AND author='$author';");
-            return view('table')->with('books',$books);
+            $books = DB::select("SELECT * FROM books WHERE title LIKE '%$title%' AND author LIKE '%$author%';");
+            return view('table')->with(compact('books','sortby','order'));
         }
         else if ($title != NULL)
         {
-            $books = DB::select("SELECT * FROM books WHERE title='$title';");
-            return view('table')->with('books',$books);
+            $books = DB::select("SELECT * FROM books WHERE title LIKE '%$title%';");
+            return view('table')->with(compact('books','sortby','order'));
         }
         else if ($author != NULL)
         {
-            $books = DB::select("SELECT * FROM books WHERE author='$author';");
-            return view('table')->with('books',$books);
+            $books = DB::select("SELECT * FROM books WHERE author LIKE '%$author%';");
+            return view('table')->with(compact('books','sortby','order'));
         }
         else
         {
@@ -72,40 +78,20 @@ class BooksController extends Controller
         }
         else
         {
-            $this->validate($request, [
-                'title' => 'required',
-                'author' => 'required'
-            ]);
-    
-            $book = new Book;
-            $book->title = $request->input('title');
-            $book->author = $request->input('author');
-            $book->save();
-    
-            return redirect('/')->with('success', 'Book Added');
+            if($request->input('title') && $request->input('author'))
+            {
+                $book = new Book;
+                $book->title = $request->input('title');
+                $book->author = $request->input('author');
+                $book->save();
+        
+                return redirect('/')->with('success', 'Book Added');
+            }
+            else
+            {
+                return redirect('/')->with('error', 'Both The Fields "Title and Author" Are Required');
+            }
         }
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
     }
 
     /**
@@ -117,16 +103,18 @@ class BooksController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $this->validate($request, [
-            'bookTitle' => 'required',
-            'bookAuthor' => 'required'
-        ]);
-
-        $book = Book::find($id);
-        $book->title = $request->get('bookTitle');
-        $book->author = $request->get('bookAuthor');
-        $book->save();
-        return redirect('/')->with('success', 'Book Updated');
+        if($request->get('bookTitle') && $request->get('bookAuthor'))
+        {
+            $book = Book::find($id);
+            $book->title = $request->get('bookTitle');
+            $book->author = $request->get('bookAuthor');
+            $book->save();
+            return redirect('/')->with('success', 'Book Updated');
+        }
+        else
+        {
+            return redirect('/')->with('error', 'Some Fields are Empty. Book Not Updated!!!');
+        }
     }
 
     /**

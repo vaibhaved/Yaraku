@@ -4,10 +4,56 @@
     
     @if(count($books)>0)
         <table>
-            <h3 style="padding: 10px">Click on the fields to edit them and then click on save</h3>
+            <div style="display: inline-block; padding: 10px">
+                <h3 style="margin: 0; float: left;">Click on the fields to edit them and then click on save</h3>
+            </div>
             <thead>
-                <th>Title</th>
-                <th>Author</th>
+                <th>@if ($sortby == 'title' && $order == 'asc')
+                    {{
+                        link_to_action(
+                            'BooksController@sort',
+                            'Title',
+                            array(
+                                'sortby' => 'title',
+                                'order' => 'desc'
+                            )
+                        )
+                    }}
+                    @else {{
+                        link_to_action(
+                            'BooksController@sort',
+                            'Title',
+                            array(
+                                'sortby' => 'title',
+                                'order' => 'asc'
+                            )
+                        )
+                    }}
+                    @endif
+                </th>
+                <th>@if ($sortby == 'author' && $order == 'asc')
+                    {{
+                        link_to_action(
+                            'BooksController@sort',
+                            'Author',
+                            array(
+                                'sortby' => 'author',
+                                'order' => 'desc'
+                            )
+                        )
+                    }}
+                    @else {{
+                        link_to_action(
+                            'BooksController@sort',
+                            'Author',
+                            array(
+                                'sortby' => 'author',
+                                'order' => 'asc'
+                            )
+                        )
+                    }}
+                    @endif
+                </th>
                 <th>Edit</th>
                 <th>Delete</th>
             </thead>
@@ -17,8 +63,8 @@
                         <form method="POST" action="{{ action('BooksController@update', $book->id)}}">
                             {{ csrf_field() }}
                             {{ method_field('PUT') }}
-                            <td class="td-first" contenteditable="true"><input class="inputTable" type="text" value="{{$book->title}}" name="bookTitle"></td>
-                            <td contenteditable="true"><input class="inputTable" type="text" value="{{$book->author}}" name="bookAuthor"></td>
+                            <td class="td-first"><input class="inputTable" type="text" value="{{$book->title}}" name="bookTitle"></td>
+                            <td><input class="inputTable" type="text" value="{{$book->author}}" name="bookAuthor"></td>
                             <td><button class="btn" type="submit"><i class="editIcon"></i></button></td>
                         </form>
                         <form method="POST" action="{{ action('BooksController@destroy', $book->id)}}">

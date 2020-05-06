@@ -23,3 +23,5 @@ Route::resource('/', 'BooksController');
 Route::delete('/{id}', 'BooksController@destroy');
 
 Route::put('/{id}', 'BooksController@update');
+
+Route::get('/sort', 'BooksController@sort');
